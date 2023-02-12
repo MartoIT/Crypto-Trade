@@ -8,7 +8,7 @@ const setupViewEngine = require('./config/viewEngine');
 const dataBase = require('./config/dataBase');
 
 setupViewEngine(app);
-app.use(express.static('public') );
+app.use('/static', express.static('public') );
 app.use(express.urlencoded({extended: false}));
 app.use(router);
 
