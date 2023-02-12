@@ -5,6 +5,7 @@ const cryptoController = require('./controllers/cryptoControllers');
 
 router.get('/', homeController.getHomePage);
 router.get('/register', authController.getRegisterPage);
+router.post('/register', authController.postRegisterPage);
 router.get('/login', authController.getLoginrPage);
 router.get('/catalog', cryptoController.getCatalogPage);
 router.get('/search', cryptoController.getSearchPage);

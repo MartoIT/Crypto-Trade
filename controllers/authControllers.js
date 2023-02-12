@@ -14,8 +14,9 @@ exports.getLoginrPage = (req, res) => {
 
 exports.postRegisterPage = async (req, res) => {
     const {username, email, password, repass } = req.body;
+    console.log(req.body)
 
-    if(password === repass) {
+    if(password !== repass) {
         throw new Error (`Email or password is wrong!`)
     };
 
@@ -23,7 +24,10 @@ exports.postRegisterPage = async (req, res) => {
     if(isExisteUserByEmail){
         throw new Error (`This user is already exist!`)
     };
-    const cryptedPassword = await bcrypt.hash(password, 5);
-    await authService.registerUser({username, email, password: cryptedPassword})
+    
+   const token=  await authService.registerUser(username, email, password);
+   res.cookie('auth', token, { httpOnly: true });
+
+    res.redirect('/');
 
 }
