@@ -44,3 +44,8 @@ exports.postLoginPage = async (req, res) => {
     res.cookie('auth', token, {httpOnly: true});
     res.redirect('/');
 }
+
+exports.logout = (req, res) => {
+    res.clearCookie('auth');
+    res.redirect('/');
+}
