@@ -13,5 +13,5 @@ app.use(express.urlencoded({extended: false}));
 app.use(router);
 
 dataBase()
-.then(() => console.log(`Server is listen on a port ${port}...`))
+.then(() => app.listen(port, () => console.log(`Server is listen on a port ${port}...`) ))
 .catch((err) => console.log(err.message));
