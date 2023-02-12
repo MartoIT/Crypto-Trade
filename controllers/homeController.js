@@ -1,6 +1,6 @@
 
 
 exports.getHomePage = (req, res) => {
-    res.render('crypto/catalog')
+    res.render('home')
 };
 
