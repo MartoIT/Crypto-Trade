@@ -20,4 +20,6 @@ router.get('/search', cryptoController.getSearchPage);
 router.get('/create', cryptoController.getCreateOfferPage);
 router.post('/create', cryptoController.postCreateOffer);
 
+router.get('/catalog/buy/:curentCryptoId', cryptoController.postBuyCrypto)
+
 module.exports = router;

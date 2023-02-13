@@ -1,11 +1,13 @@
 const createCrypto = require('../services/cryptoService');
 const Crypto = require('../Models/CryptoOffert');
 const isOwner = require('../utils/cryptoUtils')
+const jwt = require('../lib/jwt');
+const cryptoService = require('../services/cryptoService');
 
 exports.getCatalogPage = async (req, res) => {
-    
+
     const cryptoOffers = await Crypto.find().lean()
-    res.render('crypto/catalog', {cryptoOffers});
+    res.render('crypto/catalog', { cryptoOffers });
 };
 
 
@@ -18,8 +20,9 @@ exports.getDetailsPage = async (req, res) => {
     const currentCrypto = await Crypto.findById(req.params.cryptoId).lean();
     const owner = await isOwner.isOwner(req.user, currentCrypto)
     const token = req.cookies['auth'];
-   
-    res.render(`crypto/details`, {currentCrypto, owner, token});
+    const user =  req.user;
+    const crypto = req.params.cryptoId;
+    res.render(`crypto/details`, { currentCrypto, owner, token, user, crypto });
 };
 
 exports.getEditPage = (req, res) => {
@@ -34,8 +37,18 @@ exports.getSearchPage = (req, res) => {
 exports.postCreateOffer = async (req, res) => {
     const { name, image, price, description, payment } = req.body;
     const owner = req.user._id
-    console.log(req.user._id)
     await createCrypto.createCryptoOffer(name, image, price, description, payment, owner);
-   
+
     res.redirect('/catalog')
+}
+
+exports.postBuyCrypto = async (req, res) => {
+    const cryptoId = req.params.curentCryptoId;
+    const token = req.cookies['auth'];
+    const decodedToken = await jwt.verify(token, 'secret');
+    const buyerId = decodedToken._id;
+    console.log(buyerId);
+    console.log(cryptoId);
+    await cryptoService.BuyCryptoAndAddOwner(buyerId, cryptoId)
+    res.redirect('/');
 }
