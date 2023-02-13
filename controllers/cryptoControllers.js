@@ -1,5 +1,10 @@
-exports.getCatalogPage = (req, res) => {
-    res.render('crypto/catalog');
+const createCrypto = require('../services/cryptoService');
+const Crypto = require('../Models/CryptoOffert');
+
+
+exports.getCatalogPage = async (req, res) => {
+    const cryptoOffers = await Crypto.find().lean()
+    res.render('crypto/catalog', {cryptoOffers});
 };
 
 exports.getCreateOfferPage = (req, res) => {
@@ -17,3 +22,11 @@ exports.getEditPage = (req, res) => {
 exports.getSearchPage = (req, res) => {
     res.render('crypto/search')
 };
+
+
+exports.postCreateOffer = async (req, res) => {
+    const { name, image, price, description, payment } = req.body;
+    await createCrypto.createCryptoOffer(name, image, price, description, payment);
+   
+    res.redirect('/catalog')
+}

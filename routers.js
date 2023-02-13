@@ -12,5 +12,6 @@ router.get('/logout', authController.logout);
 router.get('/catalog', cryptoController.getCatalogPage);
 router.get('/search', cryptoController.getSearchPage);
 router.get('/create', cryptoController.getCreateOfferPage);
+router.post('/create', cryptoController.postCreateOffer);
 
 module.exports = router;
