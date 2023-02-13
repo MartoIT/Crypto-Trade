@@ -3,16 +3,21 @@ const Crypto = require('../Models/CryptoOffert');
 
 
 exports.getCatalogPage = async (req, res) => {
+    
     const cryptoOffers = await Crypto.find().lean()
     res.render('crypto/catalog', {cryptoOffers});
 };
 
+
 exports.getCreateOfferPage = (req, res) => {
     res.render('crypto/create');
+
 };
 
-exports.getDetailsPage = (req, res) => {
-    res.render('crypto/details')
+exports.getDetailsPage = async (req, res) => {
+    const currentCrypto = await Crypto.findById(req.params.cryptoId).lean();
+    console.log(currentCrypto);
+    res.render(`crypto/details`, currentCrypto);
 };
 
 exports.getEditPage = (req, res) => {
