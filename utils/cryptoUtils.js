@@ -1,6 +1,6 @@
 
 
-exports.isOwner = (user, crypto) => {
+exports.isOwner = async (user, crypto) => {
     if(user == undefined) {
         return false;
     }

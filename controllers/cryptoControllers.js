@@ -18,7 +18,7 @@ exports.getDetailsPage = async (req, res) => {
     const currentCrypto = await Crypto.findById(req.params.cryptoId).lean();
     const owner = await isOwner.isOwner(req.user, currentCrypto)
     const token = req.cookies['auth'];
-    console.log(token);
+   
     res.render(`crypto/details`, {currentCrypto, owner, token});
 };
 
