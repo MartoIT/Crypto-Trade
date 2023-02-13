@@ -1,6 +1,6 @@
 const createCrypto = require('../services/cryptoService');
 const Crypto = require('../Models/CryptoOffert');
-
+const isOwner = require('../utils/cryptoUtils')
 
 exports.getCatalogPage = async (req, res) => {
     
@@ -16,8 +16,9 @@ exports.getCreateOfferPage = (req, res) => {
 
 exports.getDetailsPage = async (req, res) => {
     const currentCrypto = await Crypto.findById(req.params.cryptoId).lean();
-    console.log(currentCrypto);
-    res.render(`crypto/details`, currentCrypto);
+    const owner = await isOwner.isOwner(req.user, currentCrypto)
+    console.log(owner);
+    res.render(`crypto/details`, {currentCrypto, owner});
 };
 
 exports.getEditPage = (req, res) => {
