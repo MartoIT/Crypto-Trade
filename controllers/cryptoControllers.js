@@ -47,8 +47,14 @@ exports.postBuyCrypto = async (req, res) => {
     const token = req.cookies['auth'];
     const decodedToken = await jwt.verify(token, 'secret');
     const buyerId = decodedToken._id;
-    console.log(buyerId);
-    console.log(cryptoId);
-    await cryptoService.BuyCryptoAndAddOwner(buyerId, cryptoId)
+    const data = {
+        username: buyerId.username,
+        emial: buyerId.email,
+        password: buyerId.password,
+        buy: cryptoId
+    }
+    // console.log(buyerId);
+    // console.log(cryptoId);
+    await cryptoService.BuyCryptoAndAddOwner(buyerId, data)
     res.redirect('/');
 }
