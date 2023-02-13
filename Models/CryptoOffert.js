@@ -21,6 +21,10 @@ const cryptoSchema = new mongoose.Schema({
         type: String,
         required:[`crypto-wallet, credit-card, debit-card, paypal`],
     },
+    owner:{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }
     
 
 })

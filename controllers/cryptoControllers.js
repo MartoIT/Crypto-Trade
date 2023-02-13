@@ -31,7 +31,9 @@ exports.getSearchPage = (req, res) => {
 
 exports.postCreateOffer = async (req, res) => {
     const { name, image, price, description, payment } = req.body;
-    await createCrypto.createCryptoOffer(name, image, price, description, payment);
+    const owner = req.user._id
+    console.log(req.user._id)
+    await createCrypto.createCryptoOffer(name, image, price, description, payment, owner);
    
     res.redirect('/catalog')
 }
