@@ -13,6 +13,7 @@
                     <p id="price"><span>Price: ${{currentCrypto.price}}</span></p>
                     <p id="description">{{currentCrypto.description}}</p>
                 </div>
+                {{#if token}}
                 <div class="product-btn">
                     <!--Only for registered user and author of the publication -->
                     {{#if owner}}
@@ -28,6 +29,7 @@
                     <!-- Logged in user who has already buy this crypto-->
                     <p class="buy-message">You already bought these crypto coins.</p>
                 </div>
+                {{/if}}
             </div>
         </section>
     </main>

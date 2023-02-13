@@ -17,8 +17,9 @@ exports.getCreateOfferPage = (req, res) => {
 exports.getDetailsPage = async (req, res) => {
     const currentCrypto = await Crypto.findById(req.params.cryptoId).lean();
     const owner = await isOwner.isOwner(req.user, currentCrypto)
-    console.log(owner);
-    res.render(`crypto/details`, {currentCrypto, owner});
+    const token = req.cookies['auth'];
+    console.log(token);
+    res.render(`crypto/details`, {currentCrypto, owner, token});
 };
 
 exports.getEditPage = (req, res) => {
