@@ -21,6 +21,6 @@ router.get('/create', cryptoController.getCreateOfferPage);
 router.post('/create', cryptoController.postCreateOffer);
 
 router.get('/catalog/buy/:curentCryptoId', cryptoController.postBuyCrypto);
-router.get('/edit/:cryptoId', cryptoController.getEditPage);
+router.get('/crypto/:cryptoId/edit', cryptoController.getEditPage);
 
 module.exports = router;

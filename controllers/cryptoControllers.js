@@ -25,21 +25,23 @@ exports.getDetailsPage = async (req, res) => {
     res.render(`crypto/details`, { currentCrypto, owner, token, user, crypto });
 };
 
-exports.getEditPage = (req, res) => {
-    res.render('crypto/edit')
+exports.getEditPage =  async(req, res) => {
+    const currentCrypto = await Crypto.findById(req.params.cryptoId).lean();
+    console.log(currentCrypto);
+    res.render('crypto/edit', currentCrypto );
 };
 
 exports.getSearchPage = (req, res) => {
-    res.render('crypto/search')
+    res.render('crypto/search');
 };
 
 
 exports.postCreateOffer = async (req, res) => {
     const { name, image, price, description, payment } = req.body;
-    const owner = req.user._id
+    const owner = req.user._id;
     await createCrypto.createCryptoOffer(name, image, price, description, payment, owner);
 
-    res.redirect('/catalog')
+    res.redirect('/catalog');
 }
 
 exports.postBuyCrypto = async (req, res) => {
@@ -52,9 +54,9 @@ exports.postBuyCrypto = async (req, res) => {
         emial: buyerId.email,
         password: buyerId.password,
         buy: cryptoId
-    }
+    };
     // console.log(buyerId);
     // console.log(cryptoId);
-    await cryptoService.BuyCryptoAndAddOwner(buyerId, data)
+    await cryptoService.BuyCryptoAndAddOwner(buyerId, data);
     res.redirect('/');
 }
