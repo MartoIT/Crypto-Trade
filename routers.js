@@ -13,13 +13,14 @@ router.post('/login', authController.postLoginPage);
 router.get('/logout', authController.logout);
 
 router.get('/catalog', cryptoController.getCatalogPage);
-router.get('/crypto/details/:cryptoId', cryptoController.getDetailsPage);
+router.get('/crypto/:cryptoId/details', cryptoController.getDetailsPage);
 
 router.get('/search', cryptoController.getSearchPage);
 
 router.get('/create', cryptoController.getCreateOfferPage);
 router.post('/create', cryptoController.postCreateOffer);
 
-router.get('/catalog/buy/:curentCryptoId', cryptoController.postBuyCrypto)
+router.get('/catalog/buy/:curentCryptoId', cryptoController.postBuyCrypto);
+router.get('/edit/:cryptoId', cryptoController.getEditPage);
 
 module.exports = router;
