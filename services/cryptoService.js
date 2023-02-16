@@ -24,3 +24,20 @@ exports.getOne = async (id) => {
 exports.edit = async (id, data) => {
         await Crypto.findByIdAndUpdate(id, data);
 }
+
+exports.getAll = () => Crypto.find().lean();
+
+exports.search = async (name, paymentMethod) => {
+
+        let crypto = await this.getAll();
+
+        if(name){
+                crypto = crypto.filter(x => x.name.toLowerCase() == name.toLowerCase());
+        }
+
+        if(paymentMethod){
+                crypto = crypto.filter(x => x.payment == paymentMethod);
+        }
+
+        return crypto;
+}

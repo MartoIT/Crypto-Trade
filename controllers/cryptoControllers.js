@@ -43,10 +43,18 @@ exports.getEditPage = async (req, res) => {
 };
 
 exports.getSearchPage = async (req, res) => {
-    const cryptoOffers = await Crypto.find().lean()
-   
-    res.render('crypto/search', {cryptoOffers});
+    //const cryptoOffers = await Crypto.find().lean()
+    const {name, payment} = req.query;
+    console.log(name)
+    const crypto = await cryptoService.search(name, payment);
+    res.render('crypto/search', {crypto, payment});
 };
+
+// exports.getSearchPage = async (req, res) => {
+//     const cryptoOffers = await Crypto.find().lean()
+    
+//     res.render('crypto/search', {cryptoOffers});
+// };
 
 
 exports.postCreateOffer = async (req, res) => {
@@ -78,9 +86,9 @@ exports.postEditPage = async (req, res) => {
     const isOwner = crypto.owner == req.user?._id;
     const isBuyer = crypto.buy.some(id => id == req.user._id);
     res.render(`crypto/details`, { crypto, isOwner, isBuyer })
-
-
 }
+
+
 
 exports.delete = async (req, res) => {
     const cryptoId = req.params.cryptoId;
