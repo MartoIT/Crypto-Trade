@@ -15,3 +15,12 @@ exports.delete = async (cryptoId) => {
         await Crypto.findByIdAndDelete(cryptoId);
         
 }
+
+exports.getOne = async (id) => {
+        const cruptoData = await Crypto.findById(id).lean();
+        return cruptoData;
+}
+
+exports.edit = async (id, data) => {
+        await Crypto.findByIdAndUpdate(id, data);
+}

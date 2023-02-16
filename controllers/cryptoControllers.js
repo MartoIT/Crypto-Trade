@@ -16,15 +16,15 @@ exports.getCreateOfferPage = (req, res) => {
 };
 
 exports.getDetailsPage = async (req, res) => {
-    const crypto = await Crypto.findById(req.params.cryptoId).lean();
+    const crypto = await cryptoService.getOne(req.params.cryptoId);
     const isOwner = crypto.owner == req.user?._id;
-    const isBuyer = crypto.buy.some(id => id == req.user._id); 
-   res.render(`crypto//details`, {crypto, isOwner, isBuyer})
+    const isBuyer = crypto.buy.some(id => id == req.user._id);
+    res.render(`crypto/details`, { crypto, isOwner, isBuyer })
 };
 
-exports.getEditPage =  async(req, res) => {
-    const currentCrypto = await Crypto.findById(req.params.cryptoId).lean();
-    res.render('crypto/edit', currentCrypto );
+exports.getEditPage = async (req, res) => {
+    const currentCrypto = await cryptoService.getOne(req.params.cryptoId);
+    res.render('crypto/edit', currentCrypto);
 };
 
 exports.getSearchPage = (req, res) => {
@@ -45,9 +45,23 @@ exports.postBuyCrypto = async (req, res) => {
     const token = req.cookies['auth'];
     const decodedToken = await jwt.verify(token, 'secret');
     const buyerId = decodedToken._id;
-    
+
     await cryptoService.BuyCryptoAndAddOwner(buyerId, cryptoId);
     res.redirect('/catalog');
+}
+
+exports.postEditPage = async (req, res) => {
+    const id = req.params.cryptoId;
+    const data = req.body;
+    
+    await cryptoService.edit(id, data);
+    
+    const crypto = await cryptoService.getOne(id);
+    const isOwner = crypto.owner == req.user?._id;
+    const isBuyer = crypto.buy.some(id => id == req.user._id);
+    res.render(`crypto/details`, { crypto, isOwner, isBuyer })
+
+
 }
 
 exports.delete = async (req, res) => {
@@ -56,5 +70,5 @@ exports.delete = async (req, res) => {
     await cryptoService.delete(cryptoId);
 
     res.redirect('/catalog');
-    
+
 }
