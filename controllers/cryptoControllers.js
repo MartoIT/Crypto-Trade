@@ -42,14 +42,17 @@ exports.getEditPage = async (req, res) => {
     res.render('crypto/edit', {crypto, payment});
 };
 
-exports.getSearchPage = (req, res) => {
-    res.render('crypto/search');
+exports.getSearchPage = async (req, res) => {
+    const cryptoOffers = await Crypto.find().lean()
+   
+    res.render('crypto/search', {cryptoOffers});
 };
 
 
 exports.postCreateOffer = async (req, res) => {
     const { name, image, price, description, payment } = req.body;
     const owner = req.user._id;
+    
     await createCrypto.createCryptoOffer(name, image, price, description, payment, owner);
 
     res.redirect('/catalog');
