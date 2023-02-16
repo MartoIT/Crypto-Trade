@@ -3,6 +3,8 @@ const Crypto = require('../Models/CryptoOffert');
 const jwt = require('../lib/jwt');
 const cryptoService = require('../services/cryptoService');
 
+//const  paymentMetod  = require('../utils/cryptoUtils');
+
 exports.getCatalogPage = async (req, res) => {
 
     const cryptoOffers = await Crypto.find().lean()
@@ -23,8 +25,21 @@ exports.getDetailsPage = async (req, res) => {
 };
 
 exports.getEditPage = async (req, res) => {
-    const currentCrypto = await cryptoService.getOne(req.params.cryptoId);
-    res.render('crypto/edit', currentCrypto);
+    const crypto = await cryptoService.getOne(req.params.cryptoId);
+    const paymentMetod  = {
+        "crypto-wallet": 'Crypto Wallet',
+        "credit-card": 'Credit Card',
+        "debit-card": 'Debit Card',
+        "paypal": 'PayPal'
+    }
+    
+    const payment = Object.keys(paymentMetod).map(key => ({
+        value: key,
+        label: paymentMetod[key],
+        isSelected: crypto.payment == key,
+    }))
+    
+    res.render('crypto/edit', {crypto, payment});
 };
 
 exports.getSearchPage = (req, res) => {
