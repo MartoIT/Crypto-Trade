@@ -13,3 +13,7 @@ exports.BuyCryptoAndAddOwner = async (buyerId, data) => {
         //user.buy.push(cryptoId);
 }
 
+exports.checkCryptoOwner = async (req, res) => {
+        
+}
+

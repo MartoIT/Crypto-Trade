@@ -28,10 +28,14 @@
                         <a href="/catalog/buy/{{currentCrypto._id}}" class="btn-buy">Buy</a> 
                     {{/if}}
                     <!-- Logged in user who has not yet buy this crypto-->
-                     
+                     {{#if owner}}
+                        {{else}}
+                        <p class="buy-message">You already bought these crypto coins.</p>
+                        
+                    {{/if}}
                     
                     <!-- Logged in user who has already buy this crypto-->
-                    <p class="buy-message">You already bought these crypto coins.</p>
+                    
                 </div>
                 {{/if}}
             </div>

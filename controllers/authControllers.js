@@ -1,5 +1,6 @@
 const authService = require('../services/authService');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const getErrorMessage = require('../utils/errorMessage');
 
 exports.getRegisterPage = (req, res) => {
 
@@ -37,15 +38,15 @@ exports.postLoginPage = async (req, res) => {
     const { email, password } = req.body;
     const isExisteUserByEmail = await authService.getUserByEmail(email);
 
-    if (!isExisteUserByEmail) {
-        throw new Error('email or password missmach!')
-    }
+    // if (!isExisteUserByEmail) {
+    //     throw new Error('email or password missmach!')
+    // }
     try {
         const token = await authService.loginUser(email, password);
         res.cookie('auth', token, { httpOnly: true });
         res.redirect('/');
     } catch (error) {
-        res.status(404).res.render('/login')
+        res.status(404).render('auth/login', {error: getErrorMessage.getErrorMessage(error)})
     }
 
 }
