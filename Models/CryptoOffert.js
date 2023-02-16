@@ -24,7 +24,11 @@ const cryptoSchema = new mongoose.Schema({
     owner:{
         type: mongoose.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    buy:[{
+        type: mongoose.Types.ObjectId,
+        ref: 'Crypto',
+    }]
     
 
 })

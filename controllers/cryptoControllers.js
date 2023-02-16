@@ -1,6 +1,5 @@
 const createCrypto = require('../services/cryptoService');
 const Crypto = require('../Models/CryptoOffert');
-const isOwner = require('../utils/cryptoUtils')
 const jwt = require('../lib/jwt');
 const cryptoService = require('../services/cryptoService');
 
@@ -17,13 +16,10 @@ exports.getCreateOfferPage = (req, res) => {
 };
 
 exports.getDetailsPage = async (req, res) => {
-    const currentCrypto = await Crypto.findById(req.params.cryptoId).lean();
-    console.log(currentCrypto.buy)
-    const owner = await isOwner.isOwner(req.user, currentCrypto)
-    const token = req.cookies['auth'];
-    const user =  req.user;
-    const crypto = req.params.cryptoId;
-    res.render(`crypto/details`, { currentCrypto, owner, token, user, crypto });
+    const crypto = await Crypto.findById(req.params.cryptoId).lean();
+    const isOwner = crypto.owner == req.user?._id;
+    const isBuyer = crypto.buy.some(id => id == req.user._id); 
+   res.render(`crypto//details`, {crypto, isOwner, isBuyer})
 };
 
 exports.getEditPage =  async(req, res) => {
@@ -49,14 +45,7 @@ exports.postBuyCrypto = async (req, res) => {
     const token = req.cookies['auth'];
     const decodedToken = await jwt.verify(token, 'secret');
     const buyerId = decodedToken._id;
-    const data = {
-        username: buyerId.username,
-        emial: buyerId.email,
-        password: buyerId.password,
-        buy: cryptoId
-    };
-    // console.log(buyerId);
-    // console.log(cryptoId);
-    await cryptoService.BuyCryptoAndAddOwner(buyerId, data);
+    
+    await cryptoService.BuyCryptoAndAddOwner(buyerId, cryptoId);
     res.redirect('/');
 }

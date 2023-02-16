@@ -1,5 +1,4 @@
 const authService = require('../services/authService');
-const bcrypt = require('bcrypt');
 const getErrorMessage = require('../utils/errorMessage');
 
 exports.getRegisterPage = (req, res) => {
@@ -28,9 +27,6 @@ exports.postRegisterPage = async (req, res) => {
     } catch (error) {
         res.status(404).render('auth/register', { error: getErrorMessage.getErrorMessage(error) })
     }
-
-
-
 
 
 }

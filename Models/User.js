@@ -15,10 +15,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    buy:{
-        type: mongoose.Types.ObjectId,
-        ref: 'Crypto',
-    }
+    
 })
 
 const User = mongoose.model('User', userSchema);

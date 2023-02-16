@@ -5,12 +5,11 @@ exports.createCryptoOffer = async ( name, image, price, description, payment, ow
         await Crypto.create({name, image, price, description, payment, owner })
 }
 
-exports.BuyCryptoAndAddOwner = async (buyerId, data) => {
-
-        //const user1 = await User.findById(buyerId)
-        const user = await User.findByIdAndUpdate(buyerId, data);
-        console.log(user)
-        //user.buy.push(cryptoId);
+exports.BuyCryptoAndAddOwner = async (buyerId, cryptoId) => {
+        
+        const crypto = await Crypto.findById(cryptoId)
+        crypto.buy.push(buyerId);
+        await crypto.save();
 }
 
 exports.checkCryptoOwner = async (req, res) => {
