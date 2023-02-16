@@ -16,37 +16,35 @@ exports.getLoginrPage = (req, res) => {
 exports.postRegisterPage = async (req, res) => {
     const { username, email, password, repass } = req.body;
 
-    if (password !== repass) {
-        throw new Error(`Email or password is wrong!`)
+    if(password !== repass){
+       return res.status(404).render('auth/register', { error: getErrorMessage.getErrorMessage('Password\'s is missmach!!!') });
+    }
 
-    };
+    try {
+        const token = await authService.registerUser(username, email, password);
+        res.cookie('auth', token, { httpOnly: true });
 
-    const isExisteUserByEmail = await authService.getUserByEmail(email);
-    if (isExisteUserByEmail) {
-        throw new Error(`This user is already exist!`)
-    };
+        res.redirect('/');
+    } catch (error) {
+        res.status(404).render('auth/register', { error: getErrorMessage.getErrorMessage(error) })
+    }
 
-    const token = await authService.registerUser(username, email, password);
-    res.cookie('auth', token, { httpOnly: true });
 
-    res.redirect('/');
+
+
 
 }
 
 
 exports.postLoginPage = async (req, res) => {
     const { email, password } = req.body;
-    const isExisteUserByEmail = await authService.getUserByEmail(email);
 
-    // if (!isExisteUserByEmail) {
-    //     throw new Error('email or password missmach!')
-    // }
     try {
         const token = await authService.loginUser(email, password);
         res.cookie('auth', token, { httpOnly: true });
         res.redirect('/');
     } catch (error) {
-        res.status(404).render('auth/login', {error: getErrorMessage.getErrorMessage(error)})
+        res.status(404).render('auth/login', { error: getErrorMessage.getErrorMessage(error) })
     }
 
 }
