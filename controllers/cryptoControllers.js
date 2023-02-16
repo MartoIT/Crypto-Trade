@@ -47,5 +47,5 @@ exports.postBuyCrypto = async (req, res) => {
     const buyerId = decodedToken._id;
     
     await cryptoService.BuyCryptoAndAddOwner(buyerId, cryptoId);
-    res.redirect('/');
+    res.redirect('/catalog');
 }
