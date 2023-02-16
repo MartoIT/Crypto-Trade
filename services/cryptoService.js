@@ -11,8 +11,7 @@ exports.BuyCryptoAndAddOwner = async (buyerId, cryptoId) => {
         crypto.buy.push(buyerId);
         await crypto.save();
 }
-
-exports.checkCryptoOwner = async (req, res) => {
+exports.delete = async (cryptoId) => {
+        await Crypto.findByIdAndDelete(cryptoId);
         
 }
-

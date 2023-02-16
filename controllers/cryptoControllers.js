@@ -49,3 +49,12 @@ exports.postBuyCrypto = async (req, res) => {
     await cryptoService.BuyCryptoAndAddOwner(buyerId, cryptoId);
     res.redirect('/catalog');
 }
+
+exports.delete = async (req, res) => {
+    const cryptoId = req.params.cryptoId;
+
+    await cryptoService.delete(cryptoId);
+
+    res.redirect('/catalog');
+    
+}
