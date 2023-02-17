@@ -18,6 +18,7 @@ router.get('/crypto/:cryptoId/details', cryptoController.getDetailsPage);
 router.get('/crypto/search', cryptoController.getSearchPage);
 
 
+
 router.get('/create', cryptoController.getCreateOfferPage);
 router.post('/create', cryptoController.postCreateOffer);
 

@@ -43,18 +43,11 @@ exports.getEditPage = async (req, res) => {
 };
 
 exports.getSearchPage = async (req, res) => {
-    //const cryptoOffers = await Crypto.find().lean()
-    const {name, payment} = req.query;
-    console.log(name)
-    const crypto = await cryptoService.search(name, payment);
-    res.render('crypto/search', {crypto, payment});
-};
-
-// exports.getSearchPage = async (req, res) => {
-//     const cryptoOffers = await Crypto.find().lean()
-    
-//     res.render('crypto/search', {cryptoOffers});
-// };
+   const {name, payment} = req.query;
+   const crypto = await cryptoService.search(name, payment)
+   console.log(req.query)
+    res.render('crypto/search', {crypto, name, payment});
+}
 
 
 exports.postCreateOffer = async (req, res) => {

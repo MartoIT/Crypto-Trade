@@ -8,7 +8,7 @@ const cryptoSchema = new mongoose.Schema({
     image:{
         type: String,
         required: true,
-        validate: /^http?:\/\//,
+        
     },
     price:{
         type: Number,
